@@ -1,0 +1,50 @@
+// Runnable implementation for generating Fibonacci series
+class FibonacciGenerator implements Runnable {
+    private int count;
+
+    // Constructor to initialize the number of terms
+    public FibonacciGenerator(int count) {
+        this.count = count;
+    }
+
+    // Method to compute and print Fibonacci series
+    public void generateFibonacciSeries() {
+        int a = 0, b = 1;
+        System.out.println("Fibonacci Series for " + count + " terms:");
+
+        for (int i = 0; i < count; i++) {
+            System.out.print(a + " ");
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        System.out.println();
+    }
+
+    // Override run method to start thread
+    @Override
+    public void run() {
+        generateFibonacciSeries();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Example inputs
+        int[] inputs = { 7, -10, 0, 0, 12 };
+
+        // Process each input
+        for (int input : inputs) {
+            System.out.println("\nInput: " + input);
+
+            // Create instance of FibonacciGenerator with input count
+            FibonacciGenerator fibonacciGenerator = new FibonacciGenerator(Math.abs(input));
+
+            // Create thread with FibonacciGenerator instance
+            Thread thread = new Thread(fibonacciGenerator);
+
+            // Start thread
+            thread.start();
+        }
+    }
+}
