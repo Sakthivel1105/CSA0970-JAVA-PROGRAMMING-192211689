@@ -1,0 +1,57 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class CommonElements {
+    public static int[] findCommonElements(int[] arr1, int[] arr2) {
+        // Convert arrays to sets for easier element comparison
+        Set<Integer> set1 = new HashSet<>();
+        for (int num : arr1) {
+            set1.add(num);
+        }
+
+        Set<Integer> set2 = new HashSet<>();
+        for (int num : arr2) {
+            set2.add(num);
+        }
+
+        // Find intersection of two sets (common elements)
+        set1.retainAll(set2);
+
+        // Convert set back to array
+        int[] result = new int[set1.size()];
+        int index = 0;
+        for (int num : set1) {
+            result[index++] = num;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the first array
+        System.out.print("Enter elements for the first array (space-separated integers): ");
+        String input1 = scanner.nextLine();
+        int[] arr1 = Arrays.stream(input1.split("\\s+"))
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+
+        // Input for the second array
+        System.out.print("Enter elements for the second array (space-separated integers): ");
+        String input2 = scanner.nextLine();
+        int[] arr2 = Arrays.stream(input2.split("\\s+"))
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+
+        // Find common elements
+        int[] commonElements = findCommonElements(arr1, arr2);
+
+        // Print the result
+        System.out.println("Common elements: " + Arrays.toString(commonElements));
+
+        scanner.close();
+    }
+}
