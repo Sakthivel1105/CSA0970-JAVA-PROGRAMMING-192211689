@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+// Superclass Parent
+class Parent {
+    int value;
+
+    // Parameterized constructor
+    Parent(int value) {
+        this.value = value;
+    }
+}
+
+// Subclass Child
+class Child extends Parent {
+    int value; // Hides the 'value' field in Parent
+
+    // Parameterized constructor
+    Child(int value) {
+        super(value); // Call superclass constructor
+        this.value = value; // Initialize subclass field
+    }
+
+    // Method to display input values
+    void displayValues() {
+        System.out.println("Input values provided: " + super.value + ", " + this.value);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get input from user for the value
+        System.out.print("Enter a value: ");
+        int inputValue = scanner.nextInt();
+
+        // Create an instance of Child with input value
+        Child child = new Child(inputValue);
+        child.displayValues();
+
+        // Close the scanner
+        scanner.close();
+    }
+}
