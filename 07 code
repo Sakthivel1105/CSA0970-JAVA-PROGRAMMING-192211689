@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+public class PerfectNumbers {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get the number of perfect numbers to print
+        System.out.print("Enter the value of N: ");
+        int n = scanner.nextInt();
+
+        System.out.print("First " + n + " perfect numbers are: ");
+        int count = 0;
+        int number = 1;
+
+        while (count < n) {
+            if (isPerfect(number)) {
+                System.out.print(number + " ");
+                count++;
+            }
+            number++;
+        }
+    }
+
+    // Method to check if a number is a perfect number
+    public static boolean isPerfect(int number) {
+        int sum = 0;
+
+        // Find the sum of proper divisors
+        for (int i = 1; i <= number / 2; i++) {
+            if (number % i == 0) {
+                sum += i;
+            }
+        }
+
+        return sum == number;
+    }
+}
