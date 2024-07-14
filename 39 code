@@ -1,0 +1,81 @@
+import java.util.*;
+
+public class WeakestRowsInMatrix {
+    public static int[] kWeakestRows(int[][] mat, int k) {
+        int m = mat.length;
+        int n = mat[0].length;
+        
+        // List to store row indices along with soldier counts
+        List<int[]> rowList = new ArrayList<>();
+        
+        // Calculate soldier counts for each row
+        for (int i = 0; i < m; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 1) {
+                    count++;
+                } else {
+                    break; // Since soldiers are in front of civilians
+                }
+            }
+            // Store row index and soldier count in the list
+            rowList.add(new int[]{i, count});
+        }
+        
+        // Sort the rowList based on soldier count and then by row index
+        Collections.sort(rowList, (a, b) -> {
+            if (a[1] != b[1]) {
+                return a[1] - b[1]; // Sort by soldier count ascending
+            } else {
+                return a[0] - b[0]; // Sort by row index ascending if soldier counts are same
+            }
+        });
+        
+        // Extract the indices of the k weakest rows
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = rowList.get(i)[0];
+        }
+        
+        return result;
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Input the size of the matrix
+        System.out.print("Enter the number of rows in the matrix: ");
+        int m = scanner.nextInt();
+        System.out.print("Enter the number of columns in the matrix: ");
+        int n = scanner.nextInt();
+        
+        // Input the matrix elements
+        int[][] mat = new int[m][n];
+        System.out.println("Enter the elements of the matrix (each row in one line):");
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                mat[i][j] = scanner.nextInt();
+            }
+        }
+        
+        // Input the value of k
+        System.out.print("Enter the value of k: ");
+        int k = scanner.nextInt();
+        
+        // Call kWeakestRows method to get the result
+        int[] result = kWeakestRows(mat, k);
+        
+        // Print the output
+        System.out.print("Output: [");
+        for (int i = 0; i < k; i++) {
+            System.out.print(result[i]);
+            if (i < k - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+        
+        // Close the scanner
+        scanner.close();
+    }
+}
