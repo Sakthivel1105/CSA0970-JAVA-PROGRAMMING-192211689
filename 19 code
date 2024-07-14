@@ -1,0 +1,40 @@
+class MultiplicationTablePrinter implements Runnable {
+    private int number;
+
+    // Constructor to initialize the number
+    public MultiplicationTablePrinter(int number) {
+        this.number = number;
+    }
+
+    // Method to print multiplication table
+    public void printMultiplicationTable() {
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(number + " x " + i + " = " + (number * i));
+        }
+    }
+
+    // Override run method to start thread
+    @Override
+    public void run() {
+        // Synchronize on class to ensure sequential output
+        synchronized (MultiplicationTablePrinter.class) {
+            printMultiplicationTable();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create instances of Runnable for numbers 5 and 10
+        MultiplicationTablePrinter table5 = new MultiplicationTablePrinter(5);
+        MultiplicationTablePrinter table10 = new MultiplicationTablePrinter(10);
+
+        // Create threads for each table
+        Thread thread5 = new Thread(table5);
+        Thread thread10 = new Thread(table10);
+
+        // Start threads
+        thread5.start();
+        thread10.start();
+    }
+}
