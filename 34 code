@@ -1,0 +1,62 @@
+// Customer class with deposit and withdraw methods
+class Customer {
+    private int accountNo;
+    private String accName;
+    private int balance;
+
+    // Constructor
+    public Customer(int accountNo, String accName, int balance) {
+        this.accountNo = accountNo;
+        this.accName = accName;
+        this.balance = balance;
+    }
+
+    // Synchronized method to deposit amount
+    public synchronized void deposit(int amount) {
+        System.out.println("Depositing amount: " + amount);
+        balance += amount;
+        System.out.println("Deposit successful. New balance: " + balance);
+        notify(); // Notify waiting thread (if any) that balance has been updated
+    }
+
+    // Synchronized method to withdraw amount
+    public synchronized void withdraw(int amount) {
+        System.out.println("Withdrawal requested: " + amount);
+        while (amount > balance) {
+            try {
+                System.out.println("Insufficient balance. Waiting for deposit...");
+                wait(); // Wait until notified by deposit method
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        balance -= amount;
+        System.out.println("Withdrawal successful. New balance: " + balance);
+    }
+}
+
+// Main class to test Customer class with deposit and withdraw operations
+public class BankOperation {
+    public static void main(String[] args) {
+        // Create a Customer object with initial balance of 10000
+        Customer customer = new Customer(12345, "John Doe", 10000);
+
+        // Create and start a thread to withdraw 12000
+        Thread withdrawThread1 = new Thread(() -> {
+            customer.withdraw(12000);
+        });
+        withdrawThread1.start();
+
+        // Create and start a thread to deposit 15000
+        Thread depositThread = new Thread(() -> {
+            customer.deposit(15000);
+        });
+        depositThread.start();
+
+        // Create and start another thread to withdraw 3000
+        Thread withdrawThread2 = new Thread(() -> {
+            customer.withdraw(3000);
+        });
+        withdrawThread2.start();
+    }
+}
