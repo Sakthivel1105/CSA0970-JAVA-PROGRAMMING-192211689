@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class FactorCountAndNthFactor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Prompt user for input
+        System.out.print("Given Number: ");
+        int givenNumber = scanner.nextInt();
+        
+        System.out.print("N = ");
+        int n = scanner.nextInt();
+        
+        // Calculate number of factors and nth factor
+        int numOfFactors = countFactors(givenNumber);
+        int nthFactor = findNthFactor(givenNumber, n);
+        
+        // Output the results
+        System.out.println("Number of factors = " + numOfFactors);
+        System.out.println(n + "th factor of " + givenNumber + " = " + nthFactor);
+        
+        scanner.close();
+    }
+    
+    // Method to count number of factors of a number
+    public static int countFactors(int number) {
+        int count = 0;
+        for (int i = 1; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                if (i * i == number) { // Check if the divisor is a perfect square
+                    count++;
+                } else {
+                    count += 2; // Count both i and number / i as factors
+                }
+            }
+        }
+        return count;
+    }
+    
+    // Method to find the nth factor of a number
+    public static int findNthFactor(int number, int n) {
+        List<Integer> factors = new ArrayList<>();
+        for (int i = 1; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                factors.add(i);
+                if (i != number / i) { // Avoid adding duplicate factors for perfect squares
+                    factors.add(number / i);
+                }
+            }
+        }
+        factors.sort(null); // Sort factors in ascending order
+        
+        // Check if n is within the bounds of the factors list
+        if (n <= factors.size()) {
+            return factors.get(n - 1); // Return the (n-1)th index (0-based index)
+        } else {
+            return -1; // Return -1 if n is greater than the number of factors
+        }
+    }
+}
