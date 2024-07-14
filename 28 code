@@ -1,0 +1,78 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class PrimeNumbersAfterNth {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Prompt user for input
+        System.out.print("N = ");
+        int n = scanner.nextInt();
+        
+        // Find the nth prime number
+        int nthPrime = findNthPrime(n);
+        
+        // Find n prime numbers after nthPrime
+        List<Integer> primesAfterNthPrime = findPrimesAfterNthPrime(nthPrime, n);
+        
+        // Output the results
+        System.out.println(n + "rd Prime number is " + nthPrime);
+        System.out.println(n + " prime numbers after " + nthPrime + " are: " + primesAfterNthPrime);
+        
+        scanner.close();
+    }
+    
+    // Method to find the nth prime number
+    public static int findNthPrime(int n) {
+        List<Integer> primes = new ArrayList<>();
+        int num = 2;
+        
+        while (primes.size() < n) {
+            if (isPrime(num)) {
+                primes.add(num);
+            }
+            num++;
+        }
+        
+        return primes.get(n - 1);
+    }
+    
+    // Method to check if a number is prime
+    public static boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+        if (num == 2 || num == 3) {
+            return true;
+        }
+        if (num % 2 == 0 || num % 3 == 0) {
+            return false;
+        }
+        
+        int i = 5;
+        while (i * i <= num) {
+            if (num % i == 0 || num % (i + 2) == 0) {
+                return false;
+            }
+            i += 6;
+        }
+        
+        return true;
+    }
+    
+    // Method to find n prime numbers after nthPrime
+    public static List<Integer> findPrimesAfterNthPrime(int nthPrime, int n) {
+        List<Integer> primes = new ArrayList<>();
+        int num = nthPrime + 1; // Start checking from the next number after nthPrime
+        
+        while (primes.size() < n) {
+            if (isPrime(num)) {
+                primes.add(num);
+            }
+            num++;
+        }
+        
+        return primes;
+    }
+}
