@@ -1,0 +1,50 @@
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class UniquePermutations {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Prompt user for input
+        System.out.print("Enter a number: ");
+        int givenNumber = scanner.nextInt();
+        
+        // Print unique permutations
+        System.out.println("Permutations are:");
+        printUniquePermutations(givenNumber);
+        
+        scanner.close();
+    }
+    
+    public static void printUniquePermutations(int number) {
+        String numString = String.valueOf(number);
+        char[] numArray = numString.toCharArray();
+        Set<String> result = new HashSet<>();
+        boolean[] used = new boolean[numArray.length];
+        StringBuilder currentPermutation = new StringBuilder();
+        
+        generatePermutations(numArray, used, currentPermutation, result);
+        
+        for (String permutation : result) {
+            System.out.println(permutation);
+        }
+    }
+    
+    private static void generatePermutations(char[] numArray, boolean[] used, StringBuilder currentPermutation, Set<String> result) {
+        if (currentPermutation.length() == numArray.length) {
+            result.add(currentPermutation.toString());
+            return;
+        }
+        
+        for (int i = 0; i < numArray.length; i++) {
+            if (!used[i]) {
+                used[i] = true;
+                currentPermutation.append(numArray[i]);
+                generatePermutations(numArray, used, currentPermutation, result);
+                currentPermutation.deleteCharAt(currentPermutation.length() - 1);
+                used[i] = false;
+            }
+        }
+    }
+}
