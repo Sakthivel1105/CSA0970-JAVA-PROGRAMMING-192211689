@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+// Abstract class Bank
+abstract class Bank {
+    abstract double getInterestRate();
+}
+
+// Subclass SBI extending Bank
+class SBI extends Bank {
+    @Override
+    double getInterestRate() {
+        return 8.4;
+    }
+}
+
+// Subclass ICICI extending Bank
+class ICICI extends Bank {
+    @Override
+    double getInterestRate() {
+        return 7.3;
+    }
+}
+
+// Subclass AXIS extending Bank
+class AXIS extends Bank {
+    @Override
+    double getInterestRate() {
+        return 9.7;
+    }
+}
+
+public class BankInterest {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt user to enter bank name
+        System.out.print("Enter the bank name (SBI, ICICI, AXIS): ");
+        String bankName = scanner.nextLine().trim().toUpperCase();
+
+        // Create bank object based on user input
+        Bank bank;
+        switch (bankName) {
+            case "SBI":
+                bank = new SBI();
+                break;
+            case "ICICI":
+                bank = new ICICI();
+                break;
+            case "AXIS":
+                bank = new AXIS();
+                break;
+            default:
+                System.out.println("Invalid bank name. Please enter SBI, ICICI, or AXIS.");
+                return;
+        }
+
+        // Get and print the interest rate
+        double interestRate = bank.getInterestRate();
+        System.out.println("Rate of interest for " + bankName + " is: " + interestRate + "%");
+    }
+}
